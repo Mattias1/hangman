@@ -22,7 +22,7 @@ class Hangman:
         self.mistakes = 0
 
     def play(self):
-        self.draw_intro()
+        self.draw()
 
         while True:
             try:
