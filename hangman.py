@@ -64,13 +64,14 @@ class Hangman:
         self.draw_letters()
 
     def draw_intro(self):
-        print('\n  {}\n {}'.format(self.title, '=' * (len(self.title) + 2)))
+        if self.title:
+            print('\n  {}\n {}'.format(self.title, '=' * (len(self.title) + 2)))
 
     def draw_gallow(self):
         pic = [[' '] * 15 for _ in range(6)]
 
         if self.mistakes > 0:
-            pic[5][1:14] = '_____________'
+            pic[5][1:14] = ['_'] * 13
         if self.mistakes > 1:
             pic[4][4] = '.'
             pic[5][3:5] = '/_\\'
@@ -78,8 +79,7 @@ class Hangman:
             for i in range(1, 6):
                 pic[i][4] = '|'
         if self.mistakes > 3:
-            for i in range(5, 12):
-                pic[0][i] = '_'
+            pic[0][5:12] = ['_'] * 7
         if self.mistakes > 4:
             pic[1][5] = '/'
         if self.mistakes > 5:
@@ -107,7 +107,6 @@ class Hangman:
             ', '.join(self.guesses),
             self.mistakes,
             self.MAX_MISTAKES))
-        # A comment to prevent the formatter from screwing up
 
 
 def main():
