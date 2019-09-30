@@ -10,14 +10,15 @@
 #
 # A small game of hangman on the command line
 #
-import sys
+import argparse
 
 
 class Hangman:
     MAX_MISTAKES = 10
 
-    def __init__(self, word='test'):
-        self.word = word.upper()
+    def __init__(self, args):
+        self.word = args.word.upper()
+        self.title = args.title
         self.guesses = []
         self.mistakes = 0
 
@@ -25,19 +26,14 @@ class Hangman:
         self.draw()
 
         while True:
-            try:
-                guesses = input('\nGuess a letter: \n> ').upper()
+            guesses = input('\nGuess a letter: \n> ').upper()
 
-                self.guess(guesses)
-                self.draw()
+            self.guess(guesses)
+            self.draw()
 
-                if self.has_ended():
-                    msg = 'Game over!' if self.has_lost() else 'Congratulations!'
-                    input('\n{} Hit enter to exit...\n> '.format(msg))
-                    return
-
-            except KeyboardInterrupt:
-                print(' Bye!')
+            if self.has_ended():
+                msg = 'Game over!' if self.has_lost() else 'Congratulations!'
+                input('\n{} Hit enter to exit...\n> '.format(msg))
                 return
 
     def guess(self, guesses):
@@ -68,10 +64,7 @@ class Hangman:
         self.draw_letters()
 
     def draw_intro(self):
-        print()
-        print('  Hangman')
-        print(' =========')
-        # print(' Press Ctrl+C to exit')
+        print('\n  {}\n {}'.format(self.title, '=' * (len(self.title) + 2)))
 
     def draw_gallow(self):
         pic = [[' '] * 15 for _ in range(6)]
@@ -116,14 +109,22 @@ class Hangman:
             self.MAX_MISTAKES))
         # A comment to prevent the formatter from screwing up
 
-def main():
-    args = sys.argv[1:]
-    try:
-        word = args[0]
-    except:
-        word = 'test'
 
-    game = Hangman(word)
-    game.play()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('word', type=str, nargs='?', help='the word to guess')
+    parser.add_argument('--title', type=str, nargs='?', default='Hangman', help='the title to display')
+    args = parser.parse_args()
+
+    try:
+        if args.word is None:
+            args.word = input('Enter a word: ')
+
+        game = Hangman(args)
+        game.play()
+    except KeyboardInterrupt:
+        print(' Bye!')
+        return
+
 
 main()
