@@ -20,5 +20,5 @@ A small game of hangman on the command line.
 
 Usage:
 ```
-$ python hangman.py <word>
+$ python hangman.py
 ```

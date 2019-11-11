@@ -11,6 +11,7 @@
 # A small game of hangman on the command line
 #
 import argparse
+import getpass
 
 
 class Hangman:
@@ -117,7 +118,7 @@ def main():
 
     try:
         if args.word is None:
-            args.word = input('Enter a word: ')
+            args.word = getpass.getpass('Enter a word: ')
 
         game = Hangman(args)
         game.play()
