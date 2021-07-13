@@ -112,6 +112,7 @@ class Hangman:
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--version', action='version', version='hangman 1.0')
     parser.add_argument('word', type=str, nargs='?', help='the word to guess')
     parser.add_argument('--title', type=str, nargs='?', default='Hangman', help='the title to display')
     args = parser.parse_args()
